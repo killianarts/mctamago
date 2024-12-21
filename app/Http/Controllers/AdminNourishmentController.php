@@ -26,8 +26,11 @@ class AdminNourishmentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create(HtmxRequest $request) {
+        if ($request->isHtmxRequest()) {
+            return with(new HtmxResponse())
+                ->renderFragment('admin.nourishment.create', 'admin-nourishment-create-form');
+        }
         return view('admin.nourishment.create');
     }
 
@@ -35,7 +38,7 @@ class AdminNourishmentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(HtmxRequest $request) {
-        $validator = Validator::make($request->all(), [
+        $data = $request->validate([
             'name' => 'required',
             's_price' => 'required|numeric',
             'm_price' => 'required|numeric',
@@ -43,9 +46,9 @@ class AdminNourishmentController extends Controller
             'g_price' => 'required|numeric',
             'description' => 'required|string',
         ]);
-        $data = $validator->validated();
         $nourishment = Nourishment::create($data);
         $request->session()->flash('messages', 'Nourishment Created Successfully');
+
         return with(new HtmxResponse())
                 ->addTriggerAfterSwap('showMessages')
                 ->location(route('admin.nourishment.edit', $nourishment->id));

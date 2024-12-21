@@ -1,5 +1,8 @@
 <x-Layout>
-    <div class="grid max-w-4xl mx-auto">
+    <div class="grid max-w-4xl mx-auto mt-10">
+        <button hx-get="{{ route('admin.nourishment.create') }}" hx-target="#main" hx-push-url="true">
+            Create Nourishment
+        </button>
         @foreach ($nourishments as $n)
         <a class="grid [grid-template-columns:auto_1fr_auto_auto_auto_auto] gap-5" hx-get="{{ route('admin.nourishment.edit', $n->id) }}"
            hx-target="#main"

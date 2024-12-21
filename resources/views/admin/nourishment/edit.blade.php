@@ -6,42 +6,12 @@
                 <legend class="px-2 ml-4 text-3xl">
                     Edit Nourishment
                 </legend>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Name</span>
-                        <x-input name="name" type="text" value="{{ $nourishment->name }}"/>
-                    </label>
-                </div>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Small Price</span>
-                        <x-input name="s_price" type="number" value="{{ $nourishment->s_price }}" />
-                    </label>
-                </div>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Medium Price</span>
-                        <x-input name="m_price" type="number" value="{{ $nourishment->m_price }}" />
-                    </label>
-                </div>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Large Price</span>
-                        <x-input name="l_price" type="number" value="{{ $nourishment->l_price }}" />
-                    </label>
-                </div>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Golden Price</span>
-                        <x-input name="g_price" type="number" value="{{ $nourishment->g_price }}" />
-                    </label>
-                </div>
-                <div>
-                    <label class="grid grid-cols-2">
-                        <span>Description</span>
-                        <x-input name="description" type="text" value="{{ $nourishment->description }}" />
-                    </label>
-                </div>
+                <x-input name="name" type="text" value="{{ $nourishment->name }}" label="NAME" />
+                <x-input name="s_price" type="number" value="{{ $nourishment->s_price }}" label="Small Price" />
+                <x-input name="m_price" type="number" value="{{ $nourishment->m_price }}" label="Medium Price" />
+                <x-input name="l_price" type="number" value="{{ $nourishment->l_price }}" label="Large Price" />
+                <x-input name="g_price" type="number" value="{{ $nourishment->g_price }}" label="Golden Price" />
+                <x-input name="description" type="text" value="{{ $nourishment->description }}" label="Description" />
             </fieldset>
             <button hx-put="{{ route('admin.nourishment.update', ['nourishment' => $nourishment->id]) }}"
                     hx-target="#nourishment-update-form"

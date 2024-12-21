@@ -14,9 +14,9 @@
         <title>McTamago - Golden Orbs</title>
     </head>
     <body hx-headers='{"X-CSRF-TOKEN": "{{ csrf_token() }}"}' class="bg-amber-400 space-y-10 font-default">
-        <main id="main">
+        <main id="main" class="pt-10">
             {{ $slot }}
-            @include('messages')
         </main>
+        @include('messages')
     </body>
 </html>
