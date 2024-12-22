@@ -8,7 +8,7 @@
            hx-target="#main"
            hx-push-url="true"
            hx-replace-url="true"
-           href="{{ route('admin.nourishment.show', $n->id) }}">
+           href="{{ route('admin.nourishment.edit', $n->id) }}">
             <div>{{ $n->id }}</div><div>{{ $n->name }}</div><div>{{ $n->s_price }}</div><div>{{ $n->m_price }}</div><div>{{ $n->l_price }}</div><div>{{ $n->g_price }}</div>
         </a>
         @endforeach

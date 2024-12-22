@@ -7,9 +7,7 @@ use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Nourishment;
-use Mauricius\LaravelHtmx\Http\HtmxRequest;
-use Mauricius\LaravelHtmx\Http\HtmxResponse;
-use Mauricius\LaravelHtmx\Http\HtmxResponseClientRedirect;
+use Mauricius\LaravelHtmx\Http\{HtmxRequest, HtmxResponse, HtmxResponseClientRedirect};
 
 
 class AdminNourishmentController extends Controller
@@ -38,17 +36,22 @@ class AdminNourishmentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(HtmxRequest $request) {
+        Log::info('file info:', [$request->hasFile('image_url')]);
         $data = $request->validate([
             'name' => 'required',
+            'image_url' => 'file|image|mimes:jpg,jpeg,png|max:20480',
             's_price' => 'required|numeric',
             'm_price' => 'required|numeric',
             'l_price' => 'required|numeric',
             'g_price' => 'required|numeric',
             'description' => 'required|string',
         ]);
+        if ($request->hasFile('image_url')) {
+            $imagePath = $request->file('image_url')->store('public/image_uploads');
+            $data['image_url'] = $imagePath;
+        }
         $nourishment = Nourishment::create($data);
         $request->session()->flash('messages', 'Nourishment Created Successfully');
-
         return with(new HtmxResponse())
                 ->addTriggerAfterSwap('showMessages')
                 ->location(route('admin.nourishment.edit', $nourishment->id));
@@ -57,8 +60,7 @@ class AdminNourishmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, HtmxRequest $request): View|HtmxResponse {
-        $nourishment = Nourishment::findOrFail($id);
+    public function show(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
         if ($request->isHtmxRequest()) {
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.show', 'admin-nourishment-show-page', compact('nourishment'));
@@ -70,8 +72,7 @@ class AdminNourishmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id, HtmxRequest $request): View|HtmxResponse {
-        $nourishment = Nourishment::findOrFail($id);
+    public function edit(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
         if ($request->isHtmxRequest()) {
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
@@ -82,39 +83,32 @@ class AdminNourishmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(HtmxRequest $request): HtmxResponse {
-        $validator = Validator::make($request->all(), [
+    public function update(Nourishment $nourishment, HtmxRequest $request): HtmxResponse {
+        Log::info('Update request method', ['method' => $request->method(), 'data' => $request->all(), 'input' => $request->input()]);
+        $data = $request->validate([
             'name' => 'required',
+            'image_url' => 'file|image|mimes:jpg,jpeg,png|max:20480',
             's_price' => 'required',
             'm_price' => 'required',
             'l_price' => 'required',
             'g_price' => 'required',
             'description' => 'required',
         ]);
-        if ($validator->fails()) {
-            return old();
+        Log::info('After validate()', [$data]);
+        if ($request->hasFile('image_url')) {
+            $imagePath = $request->file('image_url')->store('public/image_uploads', 'local');
+            $data['image_url'] = $imagePath;
         } else {
-            $validatedData = $request->validate([
-                'name' => 'required|max:255',
-                's_price' => 'required',
-                'm_price' => 'required',
-                'l_price' => 'required',
-                'g_price' => 'required',
-                'description' => 'required|max:255',
-            ]);
-            $nourishment = Nourishment::findOrFail($request->nourishment);
-            $nourishment->update($validatedData);
-            $request->session()->flash('messages', 'Nourishment updated successfully');
-            // Using native Laravel fragment() to return a fragment specified in the nourishment.show view
-        // $response = view('nourishment.show', compact('nourishment'))->fragment('nourishment-update-form');
-
-        // Using addFragment() and addTrigger from the Laravel HTMX package
+            unset($data['image_url']);
+        }
+        $nourishment->update($data);
+        Log::info('After update():', [$nourishment]);
+        $request->session()->flash('messages', 'Nourishment updated successfully');
         $response = new HtmxResponse();
-        $response->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
         $response->addTrigger('showMessages');
+        $response->location(route('admin.nourishment.edit', $nourishment->id));
         return $response;
         }
-    }
 
     /**
      * Remove the specified resource from storage.
