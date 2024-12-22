@@ -65,15 +65,13 @@ class AdminNourishmentController extends Controller
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.show', 'admin-nourishment-show-page', compact('nourishment'));
         }
-        return view('admin.nourishment.edit', compact('nourishment'));
-
+        return view('admin.nourishment.show', compact('nourishment'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
-        $nourishment = Nourishment::findOrFail($request->nourishment);
         if ($request->isHtmxRequest()) {
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
@@ -100,13 +98,12 @@ class AdminNourishmentController extends Controller
             $imagePath = $request->file('image_url')->store('public/image_uploads', 'local');
             $data['image_url'] = $imagePath;
         }
-        $nourishment = $request->nourishment;
         $nourishment->update($data);
         Log::info('After update():', [$nourishment]);
         $request->session()->flash('messages', 'Nourishment updated successfully');
         $response = new HtmxResponse();
         $response->addTrigger('showMessages');
-        $response->location(route('admin.nourishment.edit', $nourishment));
+        $response->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
         return $response;
         }
 
