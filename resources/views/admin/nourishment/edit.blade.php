@@ -6,9 +6,9 @@
                 <legend class="px-2 ml-4 text-3xl">
                     Edit Nourishment
                 </legend>
-                <img src="{{ Storage::url($nourishment->image_url) }}" alt="" />
+                <!-- <img src="{{ Storage::url($nourishment->image_url) }}" alt="" /> -->
                 <x-input name="name" type="text" value="{{ $nourishment->name }}" label="NAME" required />
-                <x-input name="image_url" type="file" value="{{ $nourishment->image_url }}" accept="image/*" label="Image" />
+                <!-- <x-input name="image_url" type="file" value="{{ $nourishment->image_url }}" accept="image/*" label="Image" /> -->
                 <x-input name="s_price" type="number" value="{{ $nourishment->s_price }}" label="Small Price" required />
                 <x-input name="m_price" type="number" value="{{ $nourishment->m_price }}" label="Medium Price" required />
                 <x-input name="l_price" type="number" value="{{ $nourishment->l_price }}" label="Large Price" required />
