@@ -15,13 +15,13 @@
                 <x-input name="g_price" type="number" value="{{ $nourishment->g_price }}" label="Golden Price" required />
                 <x-input name="description" type="text" value="{{ $nourishment->description }}" label="Description" required />
             </fieldset>
-            <button hx-patch="{{ route('admin.nourishment.update', ['nourishment' => $nourishment->id]) }}"
+            <button hx-patch="{{ route('admin.nourishment.update', compact('nourishment')) }}"
                     hx-encoding="multipart/form-data"
                     hx-target="#nourishment-update-form"
                     name="update" type="submit">
                 Update Nourishment
             </button>
-            <button hx-delete="{{ route('admin.nourishment.destroy', ['nourishment' => $nourishment->id]) }}"
+            <button hx-delete="{{ route('admin.nourishment.destroy', compact('nourishment')) }}"
                     hx-target="#main"
                     name="delete" type="submit">
                 Delete
