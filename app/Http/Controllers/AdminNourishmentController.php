@@ -72,7 +72,7 @@ class AdminNourishmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HtmxRequest $request): View|HtmxResponse {
+    public function edit(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
         $nourishment = Nourishment::findOrFail($request->nourishment);
         if ($request->isHtmxRequest()) {
             return with(new HtmxResponse())
@@ -84,7 +84,7 @@ class AdminNourishmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(HtmxRequest $request): HtmxResponse {
+    public function update(Nourishment $nourishment, HtmxRequest $request): HtmxResponse {
         Log::info('Update request method', ['method' => $request->method(), 'data' => $request->all(), 'input' => $request->input()]);
         $data = $request->validate([
             'name' => 'required',
