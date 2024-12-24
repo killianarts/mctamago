@@ -36,7 +36,6 @@ class AdminNourishmentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(HtmxRequest $request) {
-        Log::info('file info:', [$request->hasFile('image_url')]);
         $data = $request->validate([
             'name' => 'required',
             'image_url' => 'nullable|file|image|mimes:jpg,jpeg,png|max:20480',
@@ -47,7 +46,10 @@ class AdminNourishmentController extends Controller
             'description' => 'required|string',
         ]);
         if ($request->hasFile('image_url')) {
-            $imagePath = $request->file('image_url')->store('public/image_uploads');
+            $now = date_create();
+            $image_name = date_format($now, 'U') . $request->image_url->getClientOriginalName();
+            $imagePath = $request->file('image_url')
+                ->storeAs('images/nourishment', $image_name, 'public');
             $data['image_url'] = $imagePath;
         }
         $nourishment = Nourishment::create($data);
@@ -61,7 +63,7 @@ class AdminNourishmentController extends Controller
      * Display the specified resource.
      */
     public function show(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
-        if ($request->isHtmxRequest()) {
+        if ($request->isHtmxRequest() && !$request->isBoosted()) {
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.show', 'admin-nourishment-show-page', compact('nourishment'));
         }
@@ -72,7 +74,7 @@ class AdminNourishmentController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Nourishment $nourishment, HtmxRequest $request): View|HtmxResponse {
-        if ($request->isHtmxRequest()) {
+        if ($request->isHtmxRequest() && !$request->isBoosted()) {
             return with(new HtmxResponse())
             ->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
         }
@@ -82,8 +84,8 @@ class AdminNourishmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Nourishment $nourishment, HtmxRequest $request): HtmxResponse {
-        Log::info('Update request method', ['method' => $request->method(), 'data' => $request->all(), 'input' => $request->input()]);
+    public function update(Nourishment $nourishment, HtmxRequest $request) {
+        Log::info('BEGIN UPDATE', [$request->all()]);
         $data = $request->validate([
             'name' => 'required',
             'image_url' => 'nullable|file|image|mimes:jpg,jpeg,png|max:20480',
@@ -93,25 +95,26 @@ class AdminNourishmentController extends Controller
             'g_price' => 'required|numeric',
             'description' => 'required|string',
         ]);
-        Log::info('After validate()', [$data]);
         if ($request->hasFile('image_url')) {
-            $imagePath = $request->file('image_url')->store('public/image_uploads', 'local');
+            $now = date_create();
+            $image_name = date_format($now, 'U') . $request->image_url->getClientOriginalName();
+            $imagePath = $request->file('image_url')->storeAs('images/nourishment', $image_name, 'public');
             $data['image_url'] = $imagePath;
         }
         $nourishment->update($data);
-        Log::info('After update():', [$nourishment]);
         $request->session()->flash('messages', 'Nourishment updated successfully');
         $response = new HtmxResponse();
-        $response->addTrigger('showMessages');
+        $response->addTriggerAfterSwap('showMessages');
         $response->renderFragment('admin.nourishment.edit', 'admin-nourishment-edit-page', compact('nourishment'));
         return $response;
-        }
+    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, HtmxRequest $request): HtmxResponse {
-        Nourishment::destroy($id);
+    public function destroy(Nourishment $nourishment, HtmxRequest $request) {
+        Log::info('BEGIN DESTROY:', [$request->all()]);
+        $nourishment->delete();
         $request->session()->flash('messages', 'Nourishment deleted successfully');
         return with(new HtmxResponse())
             ->location(route('admin.nourishment.index'))

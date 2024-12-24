@@ -4,7 +4,8 @@
             Create Nourishment
         </button>
         @foreach ($nourishments as $n)
-        <a class="grid [grid-template-columns:auto_1fr_auto_auto_auto_auto] gap-5" hx-get="{{ route('admin.nourishment.edit', $n->id) }}"
+        <a class="grid [grid-template-columns:auto_1fr_auto_auto_auto_auto] gap-5"
+           hx-get="{{ route('admin.nourishment.edit', $n->id) }}"
            hx-target="#main"
            hx-push-url="true"
            hx-replace-url="true"
