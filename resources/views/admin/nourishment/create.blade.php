@@ -15,7 +15,7 @@
                 <x-input name="description" type="text" label="Description" required />
             </fieldset>
             <button name="add" type="submit"
-                    hx-post="{{ route('admin.nourishment.store') }}"
+                    hx-post="{{ request()->fullUrl() }}"
                     hx-encoding="multipart/form-data"
                     hx-target="#main">
                 Add Nourishment

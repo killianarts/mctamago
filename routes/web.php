@@ -4,17 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminNourishmentController;
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/nourishment/create', [AdminNourishmentController::class, 'create'])->name('nourishment.create');
-    Route::get('/nourishment/{nourishment}', [AdminNourishmentController::class, 'show'])->name('nourishment.show');
-    Route::delete('/nourishment/{nourishment}', [AdminNourishmentController::class, 'destroy'])->name('nourishment.destroy');
-    Route::match(['put', 'patch', 'post'],
-                 '/nourishment/{nourishment}/update', [AdminNourishmentController::class, 'update'])->name('nourishment.update');
-    Route::match(['get', 'head', 'put', 'patch', 'post'],
-                 '/nourishment/{nourishment}/edit', [AdminNourishmentController::class, 'edit'])->name('nourishment.edit');
-    Route::get('/nourishment/', [AdminNourishmentController::class, 'index'])->name('nourishment.index');
-    Route::post('/nourishment/store', [AdminNourishmentController::class, 'store'])->name('nourishment.store');
-    // Route::resource('nourishment', AdminNourishmentController::class);
+Route::controller(AdminNourishmentController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::match(['get', 'post'], '/nourishment/{nourishment}/update', 'update')->name('nourishment.update');
+    Route::match(['get', 'post'], '/nourishment/create', 'create')->name('nourishment.create');
+    Route::match(['get', 'post'], '/nourishment/', 'list')->name('nourishment.list');
 });
 
 // Route::get('/', [HomeController::class, 'show']);
