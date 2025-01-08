@@ -7,6 +7,7 @@
                     Add Some Nourishment To The Menu
                 </legend>
                 <x-input name="name" type="text" label="Name" required />
+                <x-select name="category" label="Category" :options="App\Enums\NourishmentCategory::cases()" required />
                 <x-input name="image_url" type="file" accept="image/*" label="Image" />
                 <x-input name="s_price" type="number" label="Small Price" required />
                 <x-input name="m_price" type="number" label="Medium Price" required />

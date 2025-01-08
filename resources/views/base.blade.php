@@ -8,12 +8,34 @@
              font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
              font-weight: 700;
          }
+         .font-antique {
+             font-family: Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif;
+             font-weight: 900;
+         }
+         .font-hand {
+             font-family: 'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive;
+             font-weight: normal;
+         }
         </style>
 
         <title>McTamago - Golden Orbs</title>
     </head>
     <body hx-headers='{"X-CSRF-TOKEN": "{{ csrf_token() }}"}' class="bg-amber-400 space-y-10 font-default">
-        <main id="main">
+        <header>
+            <nav class="flex flex-1 justify-between items-center bg-white rounded-lg fixed top-5 left-10 right-10 py-3 px-5">
+                <div class="max-w-[200px]">
+                    <img src="{{ asset('storage/img/mctamago-logo-large.png') }}" alt="" />
+                </div>
+                <ul class="flex items-center gap-5">
+                    <a href="{{ route('home_page') }}"><li>Home</li></a>
+                    <a href="{{ route('menu_page') }}"><li>Menu</li></a>
+                    <a href="{{ route('about_us_page') }}"><li>About Us</li></a>
+                    <a href="{{ route('news_page') }}"><li>News</li></a>
+                    <a href="{{ route('mobile_app_page') }}"><li class="text-rose-50 outline outline-2 outline-rose-700 border border-2 border-rose-600 bg-gradient-to-b from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 px-5 py-3 rounded-md hover:bg-rose-600">Get the Mobile App</li></a>
+                </ul>
+            </nav>
+        </header>
+        <main id="main" class="pt-24">
             @yield('content')
         </main>
     </body>

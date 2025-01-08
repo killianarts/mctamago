@@ -8,6 +8,7 @@
                 </legend>
                 <img src="{{ asset('storage/' . $nourishment->image_url) }}" alt="" />
                 <x-input name="name" type="text" value="{{ $nourishment->name }}" label="NAME" required />
+                <x-select name="category" label="Category" value="{{ $nourishment->category }}" :options="['food', 'drink']"  />
                 <x-input name="image_url" type="file" value="{{ $nourishment->image_url }}" accept="image/*" label="Image" />
                 <x-input name="s_price" type="number" value="{{ $nourishment->s_price }}" label="Small Price" required />
                 <x-input name="m_price" type="number" value="{{ $nourishment->m_price }}" label="Medium Price" required />
