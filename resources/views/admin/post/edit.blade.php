@@ -6,8 +6,8 @@
                 <legend class="px-2 ml-4 text-3xl">
                     Edit Post
                 </legend>
-                <x-input name="title" type="text" value="{{ $post->name }}" label="NAME" required />
-                <x-select name="status" label="Status" value="{{ $post->status }}" :options="['public', 'private', 'archived', 'draft']"  />
+                <x-input name="title" type="text" value="{{ $post->title }}" label="Title" required />
+                <x-select name="status" label="Status" value="{{ $post->status }}" :options="App\Enums\PostStatusChoices::cases()" required />
                 <x-input name="preview_text" type="text" value="{{ $post->preview_text }}" label="Preview Text" required />
                 <x-input name="body" type="text" value="{{ $post->body }}" label="Body" required />
             </fieldset>
