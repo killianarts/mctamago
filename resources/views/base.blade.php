@@ -31,7 +31,7 @@
                     <a href="{{ route('menu_page') }}"><li>Menu</li></a>
                     <a href="{{ route('about_us_page') }}"><li>About Us</li></a>
                     <a href="{{ route('news_page') }}"><li>News</li></a>
-                    <a href="{{ route('mobile_app_page') }}"><li class="text-rose-50 outline outline-2 outline-rose-700 border border-2 border-rose-600 bg-gradient-to-b from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 px-5 py-3 rounded-md hover:bg-rose-600">Get the Mobile App</li></a>
+                    <a href="{{ route('mobile_app_page') }}"><li class="text-rose-50 outline outline-2 outline-rose-700 border border-2 border-rose-600 bg-gradient-to-b from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 px-5 py-1 rounded-sm hover:bg-rose-600">Get the Mobile App</li></a>
                 </ul>
             </nav>
         </header>

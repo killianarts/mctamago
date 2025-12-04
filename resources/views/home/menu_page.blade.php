@@ -3,7 +3,7 @@
 @section('content')
     <section id="before-menu">
         <div class="grid place-items-center bg-white rounded-lg py-10 mx-10">
-            <p class="text-7xl">The Golden Menu</p>
+            <h1 class="text-7xl">The Golden Menu</h1>
         </div>
     </section>
     <section>

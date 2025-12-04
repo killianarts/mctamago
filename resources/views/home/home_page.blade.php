@@ -87,43 +87,29 @@
                 </div>
             </div>
         </section>
-        <section id="news">
+        <section id="news" class="bg-amber-500">
             <div class="container mx-auto space-y-10 p-10">
                 <header class="mx-auto text-center">
                     <h1 class="text-7xl text-amber-900 font-antique">The Golden News</h1>
                     <h2 class="text-xs text-amber-700">The latest about our eggs</h2>
                 </header>
-                <ul id="news-listing" class="max-w-3xl mx-auto text-xl py-5 grid [grid-template-columns:auto_auto_1fr] gap-5 justify-center">
-                    <li class="news-item contents">
-                        <span>tag</span>
-                        <time datetime="2024-12-15">2024-12-15</time>
-                        <p class="text-justify">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
-                    </li>
-                    <li class="news-item contents">
-                        <span>tag</span>
-                        <time datetime="2024-12-15">2024-12-15</time>
-                        <p class="text-justify">Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
-                    </li>
-                    <li class="news-item contents">
-                        <span>tag</span>
-                        <time datetime="2024-12-15">2024-12-15</time>
-                        <p class="text-justify">Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
-                    </li>
-                    <li class="news-item contents">
-                        <span>tag</span>
-                        <time datetime="2024-12-15">2024-12-15</time>
-                        <p class="text-justify">Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
-                    </li>
-                    <li class="news-item contents">
-                        <span>tag</span>
-                        <time datetime="2024-12-15">2024-12-15</time>
-                        <p class="text-justify">Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
-                    </li>
-                </ul>
-                <div id="read-more" class="flex justify-center">
-                    <button class="px-5 py-2 bg-rose-500 text-rose-50 hover:bg-rose-600 hover:scale-110">
-                        Read More
-                    </button>
+                <div class="bg-white rounded-lg p-10">
+                    <ul id="news-listing" class="max-w-3xl mx-auto text-xl grid [grid-template-columns:auto_auto_1fr] gap-5 justify-center">
+                        @foreach ($posts as $post)
+                            <a class="contents" href="{{ route('news_post', $post->id) }}">
+                                <li class="contents">
+                                    <time datetime="{{ date_format($post->created_at, 'c') }}">{{ date_format($post->created_at, 'Y-m-d') }}</time>
+                                    <p>{{ $post->title }}</p>
+                                    <p class="text-">{{ $post->preview_text }}</p>
+                                </li>
+                            </a>
+                        @endforeach
+                    </ul>
+                    <div id="read-more" class="flex justify-center mt-10">
+                        <button class="text-rose-50 outline outline-2 outline-rose-700 border border-2 border-rose-600 bg-gradient-to-b from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 px-5 py-1 rounded-sm hover:bg-rose-600">
+                            Read More
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>

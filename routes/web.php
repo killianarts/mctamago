@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MobileController;
 use App\Http\Controllers\AdminNourishmentController;
 use App\Http\Controllers\AdminPostController;
 
@@ -23,12 +24,24 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/about-us', 'about_us_page')->name('about_us_page');
     Route::get('/menu', 'menu_page')->name('menu_page');
     Route::get('/news', 'news_page')->name('news_page');
+    Route::get('/news/{post}', 'news_post')->name('news_post');
     Route::get('/mobile-app', 'mobile_app_page')->name('mobile_app_page');
+});
+
+Route::controller(MobileController::class)->prefix('hv')->name('hv.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/home', 'home_screen')->name('home_screen');
+    Route::get('/about-us', 'about_us_screen')->name('about_us_screen');
+    Route::get('/menu', 'menu_screen')->name('menu_screen');
+    Route::get('/menu-item/{nourishment}/show', 'menu_item_screen')->name('menu_item_screen');
+    Route::get('/news', 'news_screen')->name('news_screen');
+    Route::get('/news/{post}', 'news_post')->name('news_post');
 });
 
 Route::get('/show-messages', function () {
     return view('messages');
 });
+
 
 // Route::get('/images/nourishment/{filename}', function ($filename) {
 //     $path = storage_path('app/images/nourishment/' . $filename); // Adjust the path if your file is in a subdirectory like 'images'

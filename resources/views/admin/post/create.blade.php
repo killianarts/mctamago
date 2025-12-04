@@ -7,7 +7,7 @@
                     Add Post
                 </legend>
                 <x-input name="title" type="text" label="Title" required />
-                <x-select name="status" label="Status" :options="App\Models\PostStatusChoices::cases()" required />
+                <x-select name="status" label="Status" :options="App\Enums\PostStatusChoices::cases()" required />
                 <x-input name="preview_text" type="text" label="Preview Text" required />
                 <x-input name="body" type="text" label="Body" required />
             </fieldset>

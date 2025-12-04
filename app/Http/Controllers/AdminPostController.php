@@ -20,7 +20,7 @@ class AdminPostController extends Controller
      */
     public function list()
     {
-        $posts = Post::all();
+        $posts = Post::orderByDesc('created_at')->get();
         // $posts = Post::where('category', PostStatusChoices::Food)->get();
         return view('admin.post.index', compact('posts'));
     }
@@ -30,7 +30,6 @@ class AdminPostController extends Controller
      */
     public function create(HtmxRequest $request) {
         if ($request->isMethod('post')) {
-            Log::info('What is the status?', [$request->get('status')]);
             $data = $request->validate([
                 'title' => 'required|string',
                 'preview_text' => 'required|string',
@@ -66,7 +65,7 @@ class AdminPostController extends Controller
                 $request->session()->flash('messages', 'Post updated successfully');
                 $response = new HtmxResponse();
                 $response->addTriggerAfterSwap('showMessages');
-                $response->renderFragment('admin.post.edit', 'admin-post-edit-page', compact('post'));
+                $response->renderFragment('admin.post.update', 'admin-post-update-page', compact('post'));
                 return $response;
             } elseif ($request->has('delete')) {
                 $post->delete();
@@ -76,7 +75,7 @@ class AdminPostController extends Controller
                     ->addTriggerAfterSwap('showMessages');
             }
         } else {
-            return view('admin.post.edit', compact('post'));
+            return view('admin.post.update', compact('post'));
         }
     }
 }
